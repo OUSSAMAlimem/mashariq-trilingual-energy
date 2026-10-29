@@ -61,7 +61,7 @@ export function Intro() {
 
 export function Conviction() {
   const { t } = useI18n();
-  const [a, rest] = t.conviction.text.split("{1}");
+  const [a = "", rest = ""] = t.conviction.text.split("{1}");
   const [b, c] = rest.split("{2}");
   const p = useParallax<HTMLDivElement>(0.1);
   return (

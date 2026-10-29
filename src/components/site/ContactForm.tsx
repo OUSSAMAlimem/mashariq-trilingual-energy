@@ -39,9 +39,9 @@ export function ContactForm() {
     const { error } = await supabase.from("quote_requests").insert({
       full_name: r.data.name,
       email: r.data.email,
-      phone: (v.phone || "").trim().slice(0, 40) || null,
-      client_type: v.type || null,
-      location: (v.location || "").trim().slice(0, 160) || null,
+      phone: (v["phone"] || "").trim().slice(0, 40) || null,
+      client_type: v["type"] || null,
+      location: (v["location"] || "").trim().slice(0, 160) || null,
       message: r.data.message,
       language: lang,
     });

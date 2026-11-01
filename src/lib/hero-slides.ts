@@ -26,7 +26,7 @@ export const listHeroSlides = createServerFn({ method: "GET" }).handler(async ()
     if (error || !data?.length) return [];
     const { data: signed } = await sb.storage.from(HERO_BUCKET).createSignedUrls(data.map((r) => r.image_path), 60 * 60 * 24 * 7);
     // Signed URLs point at the server-side address; rewrite to the browser-facing one.
-    const pub = (process.env["VITE_SUPABASE_URL"] || "").replace(/\/+$/, "");
+    const pub = (import.meta.env.VITE_SUPABASE_URL || "").replace(/\/+$/, "");
     const srv = (process.env["SUPABASE_URL"] || "").replace(/\/+$/, "");
     return data.flatMap((r, i) => {
       const u = signed?.[i]?.signedUrl;

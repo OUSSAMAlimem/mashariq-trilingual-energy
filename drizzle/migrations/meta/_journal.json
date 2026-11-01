@@ -15,6 +15,13 @@
       "when": 1793550979042,
       "tag": "0001_hero_slides_admin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793551012090,
+      "tag": "0002_hero_photos_read",
+      "breakpoints": true
     }
   ]
 }

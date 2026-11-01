@@ -29,8 +29,8 @@ const SRC = {
 export type ImgKey = keyof typeof SRC;
 
 export function Img({
-  k, alt, className, eager, sizes = "100vw",
-}: { k: ImgKey; alt: string; className?: string; eager?: boolean; sizes?: string }) {
+  k, alt, className, eager, sizes = "100vw", style,
+}: { k: ImgKey; alt: string; className?: string; eager?: boolean; sizes?: string; style?: React.CSSProperties }) {
   const [s, l, w, h] = SRC[k];
   return (
     <img
@@ -44,6 +44,7 @@ export function Img({
       decoding="async"
       fetchPriority={eager ? "high" : undefined}
       className={className}
+      style={style}
     />
   );
 }

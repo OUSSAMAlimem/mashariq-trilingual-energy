@@ -1,5 +1,9 @@
 import hero8 from "@/assets/hero-800.webp";
 import hero16 from "@/assets/hero-1600.webp";
+import dc8 from "@/assets/hero-drone-close-800.webp";
+import dc16 from "@/assets/hero-drone-close-1600.webp";
+import dw8 from "@/assets/hero-drone-wide-800.webp";
+import dw16 from "@/assets/hero-drone-wide-1600.webp";
 import conv8 from "@/assets/conviction-800.webp";
 import conv16 from "@/assets/conviction-1600.webp";
 import about8 from "@/assets/about-800.webp";
@@ -13,6 +17,8 @@ import contact16 from "@/assets/contact-1600.webp";
 
 const SRC = {
   hero: [hero8, hero16, 1600, 907],
+  heroClose: [dc8, dc16, 1600, 912],
+  heroWide: [dw8, dw16, 1600, 912],
   conviction: [conv8, conv16, 1600, 900],
   about: [about8, about16, 1600, 900],
   solutions: [sol8, sol16, 1600, 900],

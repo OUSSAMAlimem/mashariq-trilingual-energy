@@ -15,7 +15,11 @@ export function Hero() {
   return (
     <section id="top" className="relative isolate flex min-h-[92svh] items-end overflow-hidden pb-14 pt-28 sm:min-h-[100svh] sm:items-center sm:pb-20">
       <div ref={p} className="absolute inset-0 -z-10 will-change-transform">
-        <Img k="hero" alt={t.hero.alt} eager className="hero-zoom h-full w-full object-cover object-[30%_center] sm:object-center" />
+        {(["hero", "heroClose", "heroWide"] as const).map((k, i) => (
+          <div key={k} className="hero-slide absolute inset-0 overflow-hidden" style={{ "--i": i } as React.CSSProperties}>
+            <Img k={k} alt={i === 0 ? t.hero.alt : ""} eager={i === 0} className="hero-kb h-full w-full object-cover object-[30%_center] sm:object-center" />
+          </div>
+        ))}
       </div>
       <div className="absolute inset-0 -z-10 bg-scrim" />
       <div className="absolute inset-0 -z-10 bg-scrim-side" />

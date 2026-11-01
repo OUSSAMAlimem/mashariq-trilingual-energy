@@ -136,11 +136,18 @@
 .reveal.is-in { opacity: 1; transform: none; }
 .hero-zoom { animation: hero-zoom 18s ease-out both; }
 @keyframes hero-zoom { from { transform: scale(1.12); } to { transform: scale(1); } }
+/* Hero background: 3-scene crossfade (6s per scene, ~1.5s fades) with slow zoom + horizontal pan */
+.hero-slide { --cycle: 18s; opacity: 0; animation: hero-fade var(--cycle) linear infinite both; animation-delay: calc(var(--i) * 6s - 1.44s); }
+.hero-slide:first-child { opacity: 1; }
+.hero-kb { transform-origin: 50% 55%; will-change: transform; animation: hero-kb 18s linear infinite both; animation-delay: calc(var(--i) * 6s - 1.44s); }
+@keyframes hero-fade { 0% { opacity: 0; } 8% { opacity: 1; } 33% { opacity: 1; } 41% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes hero-kb { 0% { transform: scale(1.06) translate3d(1.5%, 0, 0); } 41% { transform: scale(1.16) translate3d(-1.5%, 0, 0); } 100% { transform: scale(1.16) translate3d(-1.5%, 0, 0); } }
+[dir="rtl"] .hero-kb { animation-direction: normal; }
 .rise { animation: rise 1s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d, 0ms); }
 @keyframes rise { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal, .rise { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
-  .hero-zoom { animation: none; }
+  .hero-zoom, .hero-slide, .hero-kb { animation: none; }
 }

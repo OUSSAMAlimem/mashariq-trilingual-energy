@@ -4,22 +4,36 @@ import { Img } from "./Img";
 import { Reveal, useParallax } from "./Reveal";
 import { ContactForm } from "./ContactForm";
 import { Logo } from "./Header";
+import { heroTiming, type HeroSlide } from "@/lib/hero-slides";
 
 const btnSun = "inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-sun px-7 font-medium text-primary-foreground transition hover:shadow-glow";
 const btnGhost = "inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-foreground/30 px-7 text-foreground transition hover:border-sun hover:text-sun";
 const Arrow = () => <ArrowRight size={18} aria-hidden className="rtl:-scale-x-100" />;
 
-export function Hero() {
+export function Hero({ photos = [] }: { photos?: HeroSlide[] }) {
   const { t } = useI18n();
   const p = useParallax<HTMLDivElement>(0.12);
+  const imgCls = "hero-kb h-full w-full object-cover object-[30%_center] sm:object-center";
+  const n = photos.length || 3;
+  const tm = heroTiming(n);
+  const anim = (name: string, i: number) => n === 1
+    ? { animation: `hero-kb-${n} 12s linear infinite alternate both` }
+    : { animation: `${name}-${n} ${tm.cycle}s linear infinite both`, animationDelay: `${i * 6 - 1.44}s` };
   return (
     <section id="top" className="relative isolate flex min-h-[92svh] items-end overflow-hidden pb-14 pt-28 sm:min-h-[100svh] sm:items-center sm:pb-20">
+      <style>{`@keyframes hero-fade-${n}{0%{opacity:0}${tm.inEnd}{opacity:1}${tm.hold}{opacity:1}${tm.outEnd}{opacity:0}100%{opacity:0}}@keyframes hero-kb-${n}{0%{transform:scale(1.06) translate3d(1.5%,0,0)}${n === 1 ? "100%" : tm.outEnd}{transform:scale(1.16) translate3d(-1.5%,0,0)}100%{transform:scale(1.16) translate3d(-1.5%,0,0)}}`}</style>
       <div ref={p} className="absolute inset-0 -z-10 will-change-transform">
-        {(["hero", "heroClose", "heroWide"] as const).map((k, i) => (
-          <div key={k} className="hero-slide absolute inset-0 overflow-hidden" style={{ "--i": i } as React.CSSProperties}>
-            <Img k={k} alt={i === 0 ? t.hero.alt : ""} eager={i === 0} className="hero-kb h-full w-full object-cover object-[30%_center] sm:object-center" />
-          </div>
-        ))}
+        {photos.length
+          ? photos.map((ph, i) => (
+              <div key={ph.id} className="hero-slide absolute inset-0 overflow-hidden" style={n === 1 ? undefined : anim("hero-fade", i)}>
+                <img src={ph.url} alt={i === 0 ? t.hero.alt : ""} loading={i === 0 ? "eager" : "lazy"} fetchPriority={i === 0 ? "high" : undefined} decoding="async" className={imgCls} style={anim("hero-kb", i)} />
+              </div>
+            ))
+          : (["hero", "heroClose", "heroWide"] as const).map((k, i) => (
+              <div key={k} className="hero-slide absolute inset-0 overflow-hidden" style={anim("hero-fade", i)}>
+                <Img k={k} alt={i === 0 ? t.hero.alt : ""} eager={i === 0} className={imgCls} style={anim("hero-kb", i)} />
+              </div>
+            ))}
       </div>
       <div className="absolute inset-0 -z-10 bg-scrim" />
       <div className="absolute inset-0 -z-10 bg-scrim-side" />

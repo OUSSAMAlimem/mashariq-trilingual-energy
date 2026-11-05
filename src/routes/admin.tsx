@@ -87,7 +87,7 @@ function SignIn() {
   );
 }
 
-type Row = { id: string; image_path: string; position: number; url?: string };
+type Row = { id: string; image_path: string; position: number; url?: string | undefined };
 
 async function toWebp(file: File): Promise<Blob> {
   const bmp = await createImageBitmap(file);
@@ -142,7 +142,7 @@ function Manager({ session }: { session: Session }) {
   const move = async (i: number, d: -1 | 1) => {
     const a = rows[i], b = rows[i + d]; if (!a || !b) return;
     setBusy(true);
-    const order = rows.map((r) => r.id); [order[i], order[i + d]] = [order[i + d], order[i]];
+    const order = rows.map((r) => r.id); order[i] = b.id; order[i + d] = a.id;
     await Promise.all(order.map((id, p) => supabase.from("hero_slides").update({ position: p }).eq("id", id)));
     await done("Ordre mis à jour.");
   };
